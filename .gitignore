@@ -1,0 +1,21 @@
+# Archivos y directorios específicos del entorno
+.env
+.venv/
+
+# Archivos y directorios generados automáticamente
+__pycache__/
+*.pyc
+*.pyo
+
+# Dependencias de compilación
+build/
+dist/
+*.egg-info/
+
+# Archivos temporales
+*.log
+*.tmp
+
+# Configuración del editor
+.vscode/
+.idea/

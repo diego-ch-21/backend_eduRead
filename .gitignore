@@ -1,6 +1,6 @@
 # Archivos y directorios específicos del entorno
-.env
-.venv/
+env/
+venv/
 
 # Archivos y directorios generados automáticamente
 __pycache__/

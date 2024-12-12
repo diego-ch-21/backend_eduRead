@@ -61,3 +61,25 @@ def get_all_cuentos_usuario(id):
             'status': 500,
             'error': str(e)
         }), 500
+
+#preguntas de un cuento
+@cuento_service.route('/cuento_service/v1/cuento/preguntas/<int:id>', methods=['GET'])
+def get_preguntas_cuento(id):
+    try:
+        preguntas = Pregunta.query.filter_by(id_cuento=id).all()
+        if not preguntas:
+            return jsonify({'message': 'No se encontraron preguntas', 'status': 404}), 404
+
+        data_preguntas = preguntas_schema.dump(preguntas)
+        return jsonify({
+            'message': 'Preguntas obtenidas correctamente',
+            'status': 200,
+            'data': data_preguntas
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            'message': 'Error al obtener las preguntas',
+            'status': 500,
+            'error': str(e)
+        }), 500

@@ -7,9 +7,8 @@ from config import DATABASE_CONNECTION
 
 from services.authService import auth_service
 from services.cuentoService import cuento_service
-from services.controlService import control_service
+from services.ResponderService import responder_service
 from services.usuarioService import usuario_service
-from services.preguntaService import pregunta_service
 
 env = os.environ.get('FLASK_ENV')
 app= Flask(__name__)
@@ -24,9 +23,8 @@ db.init_app(app)
 
 app.register_blueprint(auth_service)
 app.register_blueprint(cuento_service)
-app.register_blueprint(control_service)
+app.register_blueprint(responder_service)
 app.register_blueprint(usuario_service)
-app.register_blueprint(pregunta_service)
 
 
 with app.app_context():

@@ -9,7 +9,7 @@ class CuentoSchema(ma.Schema):
             'id_cuento',
             'title',
             'text',
-            'image'
+            'image',
         )
 
 cuento_schema = CuentoSchema()

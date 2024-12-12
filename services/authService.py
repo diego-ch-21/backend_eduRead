@@ -9,52 +9,52 @@ from models.cuento import Cuento
 
 auth_service = Blueprint('auth_service',__name__)
 
-
-#regitrar usuario
 @auth_service.route('/auth_service/v1/register/usuario', methods=['POST'])
 def register_usuario():
-    try:        
+    try:
         datos = request.json
         nombre = datos.get("nombre")
-        usuario_existente = Usuario.query.filter_by(nombre=nombre).first()
-        if not usuario_existente:
-            clave = datos.get("clave")
-            edad= datos.get("edad")
-            nuevo_usuario = Usuario(
-                nombre=nombre,
-                clave=clave,
-                edad=edad
-            )
-            db.session.add(nuevo_usuario)
-            db.session.commit()
-            
-            cuentos = Cuento.query.all()
-            for i in cuentos:
-                id_cuento = i.id_cuento
-                nuevo_control = Control(
-                    id_usuario=nuevo_usuario.id_usuario,
-                    id_cuento=id_cuento,
-                    estrella = 0
-                )
-                db.session.add(nuevo_control)
-                db.session.commit()
+        clave = datos.get("clave")
+        edad = datos.get("edad")
+
+        if not nombre or not clave or not edad:
             return jsonify({
-                'message': 'usuario registrada correctamente',
-                'status': 200
-            }), 200
-        else:
-            #correo ya registrado
-            return jsonify({
-                'message': 'usuario ya esta registrado',
+                'message': 'Todos los campos son requeridos',
                 'status': 400
             }), 400
+
+        usuario_existente = Usuario.query.filter_by(nombre=nombre).first()
+        if usuario_existente:
+            return jsonify({
+                'message': 'El usuario ya está registrado',
+                'status': 400
+            }), 400
+
+        # Crear el usuario
+        nuevo_usuario = Usuario(nombre=nombre, clave=clave, edad=edad)
+        db.session.add(nuevo_usuario)
+        db.session.commit()
+
+        # Consultar los cuentos
+        cuentos = Cuento.query.all()
+        if cuentos:  # Solo si hay cuentos
+            for cuento in cuentos:
+                nuevo_control = Control(id_usuario=nuevo_usuario.id_usuario, id_cuento=cuento.id_cuento, estrella=0)
+                db.session.add(nuevo_control)
+            db.session.commit()  # Confirmar cambios después de agregar los controles
+
+        return jsonify({
+            'message': 'Usuario registrado correctamente',
+            'status': 200
+        }), 200
     except Exception as e:
-        error_data = {
+        logging.error(f"Error al registrar el usuario: {str(e)}")
+        return jsonify({
             'message': 'Error al registrar el usuario',
             'status': 500,
-            'error': str(e)
-        }
-        return jsonify(error_data), 500
+            'error': str(e)  # Opcional, solo para desarrollo
+        }), 500
+
     
 #logear
 @auth_service.route('/auth_service/v1/login/usuario', methods=['POST'])
@@ -74,7 +74,9 @@ def login_usuario():
         
         
         if usuario:
-            cuentos_en_control = Control.query.filter_by(id_usuario=usuario.id_usuario).all()  # Corregido
+            
+            
+            cuentos_en_control = Control.query.filter_by(id_usuario=usuario.id_usuario).all()
             lista_id_cuentos_usuario = [cuento.id_cuento for cuento in cuentos_en_control]
             
             todos_los_cuentos = Cuento.query.filter().all()

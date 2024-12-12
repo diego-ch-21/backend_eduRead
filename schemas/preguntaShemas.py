@@ -8,10 +8,9 @@ class PreguntaSchema(ma.Schema):
         model= Pregunta
         fields = (
             'id_pregunta',
-            'id_cuento',
-            'cuento',
+            #'id_cuento',
             'contenido',
-            'resp_correcta'
+            #'resp_correcta'
         )
     rol = ma.Nested(CuentoSchema)
 

@@ -18,25 +18,3 @@ class ControlSchema(ma.Schema):
 
 control_schema = ControlSchema()
 controles_schema = ControlSchema(many=True)
-
-
-'''
-class ControlSchema(ma.Schema):
-    class Meta:
-        model= Control
-        fields = (
-            'id_control',
-            'id_cuento',
-            'cuento',
-            'estrella'
-        )
-    cuento = ma.Method("get_cuento")
-
-    def get_cuento(self, obj):
-        cuento = Cuento.query.get(obj.id_cuento)
-        return cuento_schema.dump(cuento) if cuento else None
-
-
-control_schema = ControlSchema()
-controles_schema = ControlSchema(many=True)
-'''

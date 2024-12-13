@@ -45,7 +45,7 @@ def responder_preguntas():
         return jsonify({
             'message': 'Respuestas guardadas correctamente',
             'status': 200,
-            'data': {'estrellas_obtenidas': cont_estrella}
+            'data': cont_estrella
         }), 200
 
     except Exception as e:

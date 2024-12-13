@@ -102,9 +102,7 @@ def login_usuario():
             return jsonify({
                 'message': 'usuario logeado correctamente',
                 'status': 200,
-                'data': {
-                    'id_usuario': data_usuario
-                }
+                'data': data_usuario
             }), 200
         else:
             return jsonify({

@@ -6,7 +6,7 @@ class Cuento(db.Model):
     __tablename__ = 'cuento'
     id_cuento = db.Column(db.Integer, primary_key=True, autoincrement=True)
     title = db.Column(db.String(100))
-    text = db.Column(db.String(1000))
+    text = db.Column(db.String(2000))
     image = db.Column(db.String(100))
     
     def __init__(self, title, text, image):

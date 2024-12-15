@@ -46,9 +46,6 @@ def get_all_cuentos_usuario(id):
             control = Control.query.filter_by(id_usuario=id, id_cuento=cuento['id_cuento']).first()
             cuento['estrella'] = control.estrella if control else 0  # Asigna 0 si no hay control
 
-            preguntas = Pregunta.query.filter_by(id_cuento=cuento['id_cuento']).all()
-            cuento['preguntas'] = preguntas_schema.dump(preguntas)
-
         return jsonify({
             'message': 'Cuentos obtenidos correctamente',
             'status': 200,
